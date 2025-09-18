@@ -2,13 +2,17 @@
 - ecommerce-api-v2
 
 ## Description
-- A RESTful API for eCommerce applications, providing endpoints for managing products, orders, customers, and payments.
+- A secure RESTful API for an e-commerce platform with user authentication, product management, shopping cart, and order processing.
 
 
 ## Features
-- MongoDB + Mongoose
-- Bcrypt for password hashing
-- JSON Web Tokens (JWT) for authentication
+- User authentication and authorization (JWT)
+- Product catalog with CRUD operations
+- Shopping cart functionality
+- Order management
+- Admin panel for order management
+- Data validation with Joi
+- Security enhancements (Helmet, rate limiting, input sanitization)
 
 
 
@@ -288,13 +292,16 @@ Example Response:
 
 router.use('/admin', protect, roleCheck('admin'));
 
-🧰 Tech Stack
+🧰Technologies Used
 - Node.js
-- Express
+- Express.js
 - MongoDB with Mongoose
-- bcryptjs
-- jsonwebtoken
-- dotenv
+- JWT for authentication
+- Joi for validation
+- Helmet for security headers
+- Express-rate-limit for rate limiting
+- Express-mongo-sanitize for input sanitization
+
 
 🛠️ Environment Variables (.env)
 ## Create a .env file in your root directory:
@@ -303,15 +310,23 @@ MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret_key
 JWT_EXPIRES_IN=1h
 
+## Security Features
+- Helmet.js: Sets secure HTTP headers
+- Rate Limiting: Limits authentication requests to 5 attempts per 15 minutes
+- Input Sanitization: Protects against NoSQL injection and XSS attacks
+- JWT Authentication: Secure token-based authentication with refresh capability
+- Role-Based Access Control: Restricts admin routes to authorized users only
+- Data Validation: Joi validation for all incoming requests
+
 ## Author
 Welldone Esu 
 
 ---
 
-## fourth commit and Push
+## final commit and Push
 
 git add .
-git commit -m "feat: add admin order management"
+git commit -m "feat: add Joi validation for product, cart inputs and updated README with API documentation and examples"
 git push origin main
 
 ## Licence
