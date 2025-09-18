@@ -220,6 +220,73 @@ Description: Fetch details of a specific order by its ID.
 - Users must send a JWT token in the Authorization header:
 Authorization: Bearer <token>
 
+## 📘 Admin API Routes
+These routes are restricted to admin users only and require valid JWT authentication with an admin role.
+
+## 🔐 Authorization Required
+All routes must include a valid JWT in the Authorization header.
+# Format:
+Authorization: Bearer <your_token>
+## User must have role: "admin".
+
+## 🛠 Endpoints
+# 1. GET	/admin/orders	Get a list of all orders	Admin
+# 2. PATCH	/admin/orders/:id/status	Update the status of an order	Admin
+# 🟢 GET /admin/orders
+- Description: Fetches all orders in the system.
+- Access: Admin only.
+Example Request:
+
+# GET /admin/orders
+- Authorization: Bearer <your_token>
+- Example Response:
+
+[
+  {
+    "_id": "64e51f1b",
+    "user": "user123",
+    "products": [
+      { "productId": "abc123", "quantity": 2 }
+    ],
+    "total": 49.98,
+    "status": "pending",
+    "createdAt": "2023-09-01T10:00:00.000Z"
+  },
+  ...
+]
+
+# 🟡 PATCH /admin/orders/:id/status
+- Description: Update the status of an order.
+- Accepted Status Values: pending, shipped, delivered
+- Access: Admin only.
+- Example Request:
+
+# PATCH /admin/orders/64e51f1b/status
+- Authorization: Bearer <your_token>
+- Content-Type: application/json
+{
+  "status": "shipped"
+}
+Example Response:
+{
+  "message": "Order status updated successfully.",
+  "order": {
+    "_id": "64e51f1b",
+    "status": "shipped"
+  }
+}
+
+# Validation Error Example:
+{
+  "error": "\"status\" must be one of [pending, shipped, delivered]"
+}
+
+## 🛡️ Middleware
+# These routes use the following middlewares:
+- protect – ensures the user is authenticated.
+- authorizedRole('admin') – ensures the user has an admin role.
+
+router.use('/admin', protect, roleCheck('admin'));
 
 🧰 Tech Stack
 - Node.js
@@ -244,7 +311,7 @@ Welldone Esu
 ## fourth commit and Push
 
 git add .
-git commit -m "feat: add checkout flow with payment simulation"
+git commit -m "feat: add admin order management"
 git push origin main
 
 ## Licence

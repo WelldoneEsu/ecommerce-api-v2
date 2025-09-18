@@ -28,13 +28,13 @@ exports.protect = async (req, res, next) => {
   }
 };
 
-// Middleware to restrict to specific page
+// Middleware to restrict routes based on user roles
 exports.authorizeRoles = (...roles) => {
   return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
-      return res
-      .json({ message: 'Forbidden: Insufficient role permissions'});
-      }
-      next();
+    if (!req.user || !roles.includes(req.user.role)) {
+      return res.status(403).json({ message: 'Forbidden: Access denied' });
+    }
+    next();
   };
 };
+
