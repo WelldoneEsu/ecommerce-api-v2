@@ -91,6 +91,67 @@ Auth required: Yes
 URL params: id (Product ID)
 Response: 204 No Content
 
+## 🛒 Cart system
+# This module handles adding products to a cart, viewing the cart, and removing items.
+
+🔑 Authentication
+- All cart routes are protected using JWT.
+- Add your token from /auth/login in the headers:
+Authorization: Bearer <your_token>
+
+# 📌 Endpoints
+1. Add Product to Cart
+# POST /cart/add
+📥 Request Body
+
+{
+  "productId": "64f98765def123",
+  "quantity": 2
+}
+📤 Response
+
+{
+  "_id": "6501c3f5e7a12d",
+  "userId": "64d12345aaa999",
+  "products": [
+    {
+      "productId": "64f98765def123",
+      "quantity": 2
+    }
+  ],
+  "createdAt": "2025-09-17T10:00:00.000Z",
+  "updatedAt": "2025-09-17T10:05:00.000Z"
+}
+
+# 2. Get User’s Cart
+# GET /cart
+📤 Response
+{
+  "_id": "6501c3f5e7a12d",
+  "userId": "64d12345aaa999",
+  "products": [
+    {
+      "productId": {
+        "_id": "64f98765def123",
+        "name": "Laptop",
+        "price": 1000,
+        "stock": 5
+      },
+      "quantity": 2
+    }
+  ]
+}
+
+# 3. Remove Item from Cart
+# DELETE /cart/remove/:id
+📤 Response
+
+{
+  "_id": "6501c3f5e7a12d",
+  "userId": "64d12345aaa999",
+  "products": []
+}
+
 
 🧰 Tech Stack
 - Node.js
@@ -112,10 +173,10 @@ Welldone Esu
 
 ---
 
-## Second commit and Push
+## Third commit and Push
 
 git add .
-git commit -m "feat: add product CRUD with validation"
+git commit -m "feat: implement cart add/remove"
 git push origin main
 
 ## Licence
