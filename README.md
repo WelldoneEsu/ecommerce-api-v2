@@ -43,6 +43,54 @@ Request Body:
   "password": "yourPassword123"
 }
 
+📦 Product Routes
+
+These API endpoints allow for managing products in the system. All routes are protected and require authentication via the protect middleware.
+
+🔐 Authentication
+
+All endpoints require a valid token. Make sure to include the token in the Authorization header as:
+Authorization: Bearer <your-token-here>
+
+📘 Endpoints
+## GET /api/products/
+Fetch all products.
+Auth required: Yes
+Query params: (optional) — e.g., pagination, filtering
+Response: 200 OK with list of products
+
+## GET /api/products/:id
+Fetch a single product by ID.
+Auth required: Yes
+URL params: id (Product ID)
+Response: 200 OK with product details
+
+## POST /api/products/
+Create a new product.
+Auth required: Yes
+Body params (JSON):
+{
+  "name": "Product Name",
+  "price": 99.99,
+  "description": "Product description",
+  "category": "Category Name"
+}
+
+Response: 201 Created with new product
+
+## PATCH /api/products/:id
+Update an existing product.
+Auth required: Yes
+URL params: id (Product ID)
+Body params: Partial or full product fields
+Response: 200 OK with updated product
+
+## DELETE /api/products/:id
+Delete a product by ID.
+Auth required: Yes
+URL params: id (Product ID)
+Response: 204 No Content
+
 
 🧰 Tech Stack
 - Node.js
@@ -67,7 +115,7 @@ Welldone Esu
 ## Second commit and Push
 
 git add .
-git commit -m "feat(auth): implement user signup and login with JWT and bcrypt"
+git commit -m "feat: add product CRUD with validation"
 git push origin main
 
 ## Licence
