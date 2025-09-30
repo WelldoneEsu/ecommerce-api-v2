@@ -5,7 +5,7 @@ exports.getProducts = async (req, res) => {
         const products = await Product.find();
         res.json(products);
     } catch (error) {
-        res.ststus(400).json({ message: error.message });
+        res.status(400).json({ message: error.message });
     }
     };
 
@@ -31,7 +31,7 @@ exports.createProduct = async (req, res) => {
     }
 };
 
-exports.updateproduct = async (req, res) => {
+exports.updateProduct = async (req, res) => {
     try {
         const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
             new:true,
@@ -47,7 +47,7 @@ exports.updateproduct = async (req, res) => {
  
 exports.deleteProduct = async (req, res) => {
     try{
-        await Product.findByIdAndUpdate(req.params.id);
+        await Product.findByIdAndDelete(req.params.id);
         res.json({ message: 'Product deleted successfully' });
     } catch {error} {
         res.status(400).json({ message: error.message });

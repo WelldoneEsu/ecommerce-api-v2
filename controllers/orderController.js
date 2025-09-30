@@ -1,7 +1,7 @@
 
 const Order = require('../models/Order');
 const Cart = require('../models/Cart');
-const simulatePayment = require('../utils/simulatePayment');
+const simulatePayment = require('../utils/payments');
 
 exports.checkout = async(req, res) => {
     try {
@@ -62,4 +62,17 @@ exports.getorder = async (req, res) => {
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
+};
+
+// Delete an order by ID
+exports.deleteOrder = async (req, res) => {
+  try {
+    const order = await Order.findByIdAndDelete(req.params.id);
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+    res.json({ message: 'Order deleted successfully' });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 };

@@ -9,7 +9,7 @@ const createToken = (user) => {
     { expiresIn: '1h'}
   );
 };
-// @desc   Signup a new user
+// @desc Signup a new user
 exports.signup = async (req, res) => {
   try {
     const { email, password, phoneNumber } = req.body;
@@ -23,12 +23,9 @@ exports.signup = async (req, res) => {
       return res.status(400).json({ message: 'Email is already taken' });
     }
 
-    // Hash the password before saving
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     const user = await User.create({
       email,
-      password: hashedPassword,
+      password,
       phoneNumber
     });
 
@@ -39,7 +36,7 @@ exports.signup = async (req, res) => {
         email: user.email,
         role: user.role,
         phoneNumber: user.phoneNumber,
-        token: createToken(user) 
+        token: createToken(user)
       }
     });
   } catch (error) {
@@ -48,24 +45,27 @@ exports.signup = async (req, res) => {
 };
 
 
-// @desc   Login user
+// @desc Login user
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Check if email and password are provided
     if (!email || !password) {
       return res.status(400).json({ message: 'Email and password are required' });
     }
 
-    const user = await User.findOne({ email }).select('+password'); 
-
+    const user = await User.findOne({ email }).select('+password');
     if (!user) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Invalid password' });
+    }
+
     res.status(200).json({
-        message: 'User logged in successfully',
+      message: 'User logged in successfully',
       _id: user._id,
       email: user.email,
       role: user.role,
